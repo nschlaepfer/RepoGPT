@@ -1,0 +1,26 @@
+github-repository-analyzer/
+|
+|-- src/
+|   |-- __init__.py
+|   |-- main.py
+|   |-- git_operations.py
+|   |-- user_interface.py
+|   |-- code_processing.py
+|   |-- embedding_generation.py
+|   |-- pinecone_operations.py
+|
+|-- tests/
+|   |-- __init__.py
+|   |-- test_git_operations.py
+|   |-- test_code_processing.py
+|   |-- test_embedding_generation.py
+|   |-- test_pinecone_operations.py
+|
+|-- docs/
+|   |-- README.md
+|   |-- CONTRIBUTING.md
+|   |-- file_structure.md
+|
+|-- .gitignore
+|-- setup.py
+|-- requirements.txt

@@ -58,8 +58,8 @@ def comment_files(directory, gpt_version, open_api_key=None):
                 with open(file_path, "r") as f:
                     content = f.read()
 
-                # Split the content into chunks based on function and class boundaries
-                chunks = split_code_into_chunks(content)
+                # Split the content into chunks based on line breaks
+                chunks = content.split('\n')
 
                 analysis = ""
                 commented_content = content  # Start with the original content
@@ -70,36 +70,31 @@ def comment_files(directory, gpt_version, open_api_key=None):
                         # Change the model according to the GPT version
                         model=f"gpt-{gpt_version}",
                         messages=[
-                            {"role": "system", "content": "You are a helpful assistant that analyzes and comments Python code. List any issues you find and suggest improvements and fixes. You can also suggest new features."},
+                            {"role": "system", "content": "You are a helpful assistant that analyzes and comments code. List any issues you find and suggest improvements and fixes. You can also suggest new features."},
                             {"role": "user", "content": f"Analyze this code:\n{chunk}"}
                         ],
                         max_tokens=1000  # Adjust this as needed
                     )
 
-                    chunk_analysis = response['choices'][0]['message']['content'].strip(
-                    )
+                    chunk_analysis = response['choices'][0]['message']['content'].strip()
                     analysis += chunk_analysis + "\n"
 
                     # Insert the analysis as a comment at the start of the chunk
-                    start_line = content[:content.find(chunk)].count('\n') + 1
-                    comment = "\n".join("# " + line for line in chunk_analysis.split("\n"))
-                    commented_content = commented_content[:start_line] + comment + commented_content[start_line:]
+                    commented_content = chunk_analysis + "\n" + commented_content
 
-                # Write the analysis to a new markdown file
-                new_file_path = file_path.replace(".py", "_repoGPT.md")
+                # Write the analysis to a new file
+                new_file_path = file_path.replace(".py", "_repoGPT.py")
                 with open(new_file_path, "w") as f:
                     f.write(analysis)
 
                 print(f"Analysis written to {new_file_path}")
 
-                # Write the commented code to a new Python file
-                # This makes a new file. Can change maybe a setting to choose new file or overwrite old one.
+                # Write the commented code to a new file
                 new_file_path = file_path.replace(".py", "_commented.py")
                 with open(new_file_path, "w") as f:
                     f.write(commented_content)
 
                 print(f"Commented code written to {new_file_path}")
-
 
 def create_readme(directory):
     print(f"Creating README for directory: {directory}")  # Add this line

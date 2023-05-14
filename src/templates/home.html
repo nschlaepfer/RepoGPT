@@ -8,6 +8,7 @@
                 var dropdown = document.getElementById("user_choice");
                 var pineconeSettings = document.getElementById("pineconeSettings");
                 var openaiAPIKeyInput = document.getElementById("openai_api_key");
+                var resultBox = document.getElementById("result_box");
 
                 if (dropdown.value === "1" || dropdown.value === "3") {
                     pineconeSettings.style.display = "block";
@@ -20,8 +21,23 @@
                 } else {
                     openaiAPIKeyInput.style.display = "none";
                 }
+
+                // Clear the result box when changing the operation
+                resultBox.value = "";
             }
         </script>
+        <style>
+            #result_box {
+                width: 100%;
+                height: 400px;
+                padding: 10px;
+                margin-top: 20px;
+                font-family: monospace;
+                font-size: 14px;
+                border: 1px solid #ccc;
+                overflow-y: auto;
+            }
+        </style>
     </head>
     
     <body>
@@ -63,9 +79,47 @@
                     <label for="openai_api_key">OpenAI API Key:</label>
                     <input type="text" class="form-control" id="openai_api_key" name="openai_api_key">
                 </div>
-
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
+    
+            <div id="result_box"></div>
         </div>
+    
+        <script>
+            document.querySelector("form").addEventListener("submit", function(event) {
+                event.preventDefault();
+                var repoLink = document.getElementById("repo_link").value;
+                var userChoice = document.getElementById("user_choice").value;
+                var pineconeApiKey = document.getElementById("pinecone_api_key").value;
+                var pineconeEnv = document.getElementById("pinecone_env").value;
+                var pineconeIndex = document.getElementById("pinecone_index").value;
+                var openaiApiKey = document.getElementById("openai_api_key").value;
+    
+                var resultBox = document.getElementById("result_box");
+                resultBox.textContent = ""; // Clear previous results
+    
+                fetch("/analyze", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        repoLink: repoLink,
+                        userChoice: userChoice,
+                        pineconeApiKey: pineconeApiKey,
+                        pineconeEnv: pineconeEnv,
+                        pineconeIndex: pineconeIndex,
+                        openaiApiKey: openaiApiKey
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    resultBox.textContent = data.result;
+                })
+                .catch(error => {
+                    resultBox.textContent = "An error occurred: " + error.message;
+                });
+            });
+        </script>
     </body>
-</html>
+    

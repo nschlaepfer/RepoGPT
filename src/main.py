@@ -44,6 +44,14 @@ def home():
     
     return render_template('home.html')
 
+@app.route('/download', methods=['GET'])
+def download_files():
+    directory = './REPO'  # Change this to the appropriate directory where the generated files are stored
+    filename = 'generated_files.zip'
+    zip_path = os.path.join(directory, filename)
+    return send_from_directory(directory, filename=filename, as_attachment=True)
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

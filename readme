@@ -1,88 +1,12 @@
-Project Title: GitHub Repository Analyzer
-
-1. **Objective**
-   The software solution aims to clone a GitHub repository provided by the user, and subsequently perform one of the following actions based on user input:
-    1. Convert the code into embeddings and upload to a Pinecone database
-    2. Comment all files, create a README, and a file structure guide for the code in the repo
-    3. Execute both steps 1 and 2, commenting first, and then uploading the embeddings
-
-2. **Intended Users**
-   The intended users are developers or researchers who want to analyze or understand code from a GitHub repository, either by viewing well-commented code and a clear file structure guide, or by leveraging code embeddings in a Pinecone database for machine learning tasks.
-
-3. **Requirements**
-   - Programming Language: Python (as it has good support for text processing, Git operations, machine learning, and interfacing with Pinecone)
-   - External libraries: GitPython (for Git operations), some NLP library like spaCy or Transformers (for creating code embeddings), Pinecone (for uploading embeddings)
-
-4. **Software Architecture**
-
-   The software will follow a modular architecture for ease of maintenance and scalability, divided into these main modules:
-    1. User Interface: For getting user input
-    2. Git Operations: For cloning the repo and manipulating the files
-    3. Code Processing: For commenting the code and creating the file structure guide
-    4. Embedding Generation: For converting the code into embeddings
-    5. Pinecone Operations: For uploading embeddings to Pinecone
-
-5. **Workflow**
-
-   The software will follow this general workflow:
-    1. Ask the user for a GitHub repo link
-    2. Clone the GitHub repository
-    3. Ask the user for their desired operation (1, 2, or both)
-    4. Depending on user input, perform the necessary operations
-
-6. **Data Security**
-
-   As the system might be dealing with potentially sensitive code, it will follow best practices for data security including ensuring secure communication with the Pinecone database.
-
-7. **Maintenance and Updates**
-   
-   Regular updates will be necessary to ensure compatibility with the latest versions of the various libraries and services being used. Additionally, depending on user feedback and usage patterns, new features or improvements might be required.
-
-**Execution Plan**
-
-1. Requirements Gathering: Define the exact functionality for commenting code and creating file structure guides. Identify the best model for generating code embeddings.
-
-2. Designing: Design the software architecture and define the responsibilities of each module.
-
-3. Development: Start coding the software, module by module, starting with the Git Operations module as it forms the basis for other operations.
-
-4. Testing: After each module is developed, perform unit testing to ensure it's working as expected. Once all modules are complete, perform integration testing.
-
-5. Deployment: After successful testing, deploy the software for end-users.
-
-6. Maintenance: Regularly update the software, fix bugs, and add new features based on user feedback.
-
-This is a high-level plan and will need to be refined and detailed out based on your specific needs and constraints.
-
-
-
-
-# READ ME STARTS HERE
-
-## Installation
-
-1. Clone the repository
-2. Install the required packages using `pip install -r requirements.txt` (pip install gitpython spacy transformers pinecone-io)
-
-## Usage
-
-1. Run `python main.py`
-2. Enter the GitHub repository link
-3. Enter the operation you want to perform (1, 2, or 3)
-4. If you chose operation 1 or 3, enter your Pinecone API key
-5. Wait for the operation to complete
-
-
-
 # GitHub Repository Analyzer
 
 ## Objective
 
 The software solution aims to clone a GitHub repository provided by the user, and subsequently perform one of the following actions based on user input:
 
-1. Convert the code into embeddings and upload to a Pinecone database
-2. Comment all files, create a README, and a file structure guide for the code in the repo
-3. Execute both steps 1 and 2, commenting first, and then uploading the embeddings
+1. Convert the code into embeddings and upload to a Pinecone database.
+2. Comment all files, create a README, and a file structure guide for the code in the repo.
+3. Execute both steps 1 and 2, commenting first, and then uploading the embeddings.
 
 ## Intended Users
 
@@ -90,28 +14,27 @@ The intended users are developers or researchers who want to analyze or understa
 
 ## Requirements
 
-- Programming Language: Python (as it has good support for text processing, Git operations, machine learning, and interfacing with Pinecone)
-
-- External libraries: GitPython (for Git operations), some NLP library like spaCy or Transformers (for creating code embeddings), Pinecone (for uploading embeddings)
+- Programming Language: Python (as it has good support for text processing, Git operations, machine learning, and interfacing with Pinecone).
+- External libraries: GitPython (for Git operations), some NLP library like spaCy or Transformers (for creating code embeddings), Pinecone (for uploading embeddings).
 
 ## Software Architecture
 
 The software will follow a modular architecture for ease of maintenance and scalability, divided into these main modules:
 
-1. User Interface: For getting user input
-2. Git Operations: For cloning the repo and manipulating the files
-3. Code Processing: For commenting the code and creating the file structure guide
-4. Embedding Generation: For converting the code into embeddings
-5. Pinecone Operations: For uploading embeddings to Pinecone
+1. User Interface: For getting user input.
+2. Git Operations: For cloning the repo and manipulating the files.
+3. Code Processing: For commenting the code and creating the file structure guide.
+4. Embedding Generation: For converting the code into embeddings.
+5. Pinecone Operations: For uploading embeddings to Pinecone.
 
 ## Workflow
 
 The software will follow this general workflow:
 
-1. Ask the user for a GitHub repo link
-2. Clone the GitHub repository
-3. Ask the user for their desired operation (1, 2, or both)
-4. Depending on user input, perform the necessary operations
+1. Ask the user for a GitHub repo link.
+2. Clone the GitHub repository.
+3. Ask the user for their desired operation (1, 2, or both).
+4. Depending on user input, perform the necessary operations.
 
 ## Data Security
 
@@ -121,3 +44,14 @@ As the system might be dealing with potentially sensitive code, it will follow b
 
 Regular updates will be necessary to ensure compatibility with the latest versions of the various libraries and services being used. Additionally, depending on user feedback and usage patterns, new features or improvements might be required.
 
+## Installation
+
+1. Clone the repository.
+2. Install the required packages using `pip install -r requirements.txt` (pip install gitpython spacy transformers pinecone-io).
+
+## Usage
+
+1. Navigate to your project directory.
+2. Set the `FLASK_APP` environment variable to `main.py`. On a Unix-like terminal, type `export FLASK_APP=main.py`. On Windows command prompt, type `set FLASK_APP=main.py`.
+3. Run the Flask server with the `flask run` command.
+4. Open your web browser and visit `http://127.0.0.1:5000/` to view and interact with your application.

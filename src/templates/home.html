@@ -1,23 +1,71 @@
-<!-- templates/home.html -->
 <!DOCTYPE html>
 <html>
-<head>
-    <title>GitHub Repository Analyzer</title>
-</head>
-<body>
-    <h1>Welcome to the GitHub Repository Analyzer!</h1>
-    <form method="POST">
-        <label for="repo_link">Please enter the link to the GitHub repo you want to analyze:</label>
-        <input type="text" id="repo_link" name="repo_link" required>
+    <head>
+        <title>GitHub Repository Analyzer</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script>
+            function showPineconeSettings() {
+                var dropdown = document.getElementById("user_choice");
+                var pineconeSettings = document.getElementById("pineconeSettings");
+                var openaiAPIKeyInput = document.getElementById("openai_api_key");
 
-        <label for="user_choice">Select an operation:</label>
-        <select id="user_choice" name="user_choice" required>
-            <option value="1">Convert the code into embeddings and upload to Pinecone</option>
-            <option value="2">Comment all files, create README, and a file structure guide</option>
-            <option value="3">Perform both operations</option>
-        </select>
+                if (dropdown.value === "1" || dropdown.value === "3") {
+                    pineconeSettings.style.display = "block";
+                } else {
+                    pineconeSettings.style.display = "none";
+                }
 
-        <button type="submit">Submit</button>
-    </form>
-</body>
+                if (dropdown.value !== "2") {
+                    openaiAPIKeyInput.style.display = "block";
+                } else {
+                    openaiAPIKeyInput.style.display = "none";
+                }
+            }
+        </script>
+    </head>
+    
+    <body>
+        <div class="container">
+            <h1 class="my-4">Welcome to the GitHub Repository Analyzer!</h1>
+            <form method="POST">
+                <div class="form-group">
+                    <label for="repo_link">Please enter the link to the GitHub repo you want to analyze:</label>
+                    <input type="text" class="form-control" id="repo_link" name="repo_link" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="user_choice">Select an operation:</label>
+                    <select class="form-control" id="user_choice" name="user_choice" required onchange="showPineconeSettings()">
+                        <option value="1">Convert the code into embeddings and upload to Pinecone</option>
+                        <option value="2">Comment all files, create README, and a file structure guide</option>
+                        <option value="3">Perform both operations</option>
+                    </select>
+                </div>
+
+                <div id="pineconeSettings" style="display: none;">
+                    <div class="form-group">
+                        <label for="pinecone_api_key">Pinecone API Key:</label>
+                        <input type="text" class="form-control" id="pinecone_api_key" name="pinecone_api_key">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pinecone_env">Pinecone Environment:</label>
+                        <input type="text" class="form-control" id="pinecone_env" name="pinecone_env">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pinecone_index">Pinecone Index:</label>
+                        <input type="text" class="form-control" id="pinecone_index" name="pinecone_index">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="openai_api_key">OpenAI API Key:</label>
+                    <input type="text" class="form-control" id="openai_api_key" name="openai_api_key">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </body>
 </html>

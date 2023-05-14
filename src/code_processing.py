@@ -48,7 +48,9 @@ def split_code_into_chunks(code):
 
 
 
-def comment_files(directory, gpt_version):
+def comment_files(directory, gpt_version, open_api_key=None):
+    # Rest of the function code
+
     for root, dirs, files in os.walk(directory):
         for file in files:
             if file.endswith(".py"):

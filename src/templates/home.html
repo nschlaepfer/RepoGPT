@@ -1,0 +1,23 @@
+<!-- templates/home.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GitHub Repository Analyzer</title>
+</head>
+<body>
+    <h1>Welcome to the GitHub Repository Analyzer!</h1>
+    <form method="POST">
+        <label for="repo_link">Please enter the link to the GitHub repo you want to analyze:</label>
+        <input type="text" id="repo_link" name="repo_link" required>
+
+        <label for="user_choice">Select an operation:</label>
+        <select id="user_choice" name="user_choice" required>
+            <option value="1">Convert the code into embeddings and upload to Pinecone</option>
+            <option value="2">Comment all files, create README, and a file structure guide</option>
+            <option value="3">Perform both operations</option>
+        </select>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

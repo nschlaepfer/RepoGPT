@@ -8,7 +8,12 @@ github-repository-analyzer/
 |   |-- code_processing.py
 |   |-- embedding_generation.py
 |   |-- pinecone_operations.py
-|
+|-- templates/
+|   |-- home.html
+|-- static/
+|   |-- css/
+|   |   |-- styles.css
+
 |-- tests/
 |   |-- __init__.py
 |   |-- test_git_operations.py

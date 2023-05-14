@@ -1,13 +1,27 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, send_from_directory, request, jsonify
 import os
 from dotenv import load_dotenv
 from git_operations import clone_repo
 from code_processing import comment_files, create_readme
 from embedding_generation import generate_embeddings
 from pinecone_operations import upload_to_pinecone
+from tqdm import tqdm
+import time
+
 
 app = Flask(__name__)
-load_dotenv()  # Load environment variables from .env
+load_dotenv()  # take environment variables from .env.
+
+PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
+OPEN_API_KEY = os.getenv("OPEN_API_KEY")
+SERP_API_KEY = os.getenv("SERP_API_KEY")
+PINECONE_ENV = os.getenv("PINECONE_ENV")
+PINECONE_INDEX = os.getenv("PINECONE_INDEX")
+
+
+
+# Use the OpenAI API key from environment variables
+
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -82,5 +96,7 @@ def analyze():
 
     return jsonify({'result': result_text})
 
+
 if __name__ == "__main__":
+    
     app.run(debug=True)

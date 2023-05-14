@@ -88,16 +88,17 @@
         <script>
             document.querySelector("form").addEventListener("submit", function(event) {
                 event.preventDefault();
+        
                 var repoLink = document.getElementById("repo_link").value;
                 var userChoice = document.getElementById("user_choice").value;
                 var pineconeApiKey = document.getElementById("pinecone_api_key").value;
                 var pineconeEnv = document.getElementById("pinecone_env").value;
                 var pineconeIndex = document.getElementById("pinecone_index").value;
                 var openaiApiKey = document.getElementById("openai_api_key").value;
-    
+        
                 var resultBox = document.getElementById("result_box");
                 resultBox.textContent = ""; // Clear previous results
-    
+        
                 fetch("/analyze", {
                     method: "POST",
                     headers: {
@@ -112,14 +113,30 @@
                         openaiApiKey: openaiApiKey
                     })
                 })
-                .then(response => response.json())
-                .then(data => {
-                    resultBox.textContent = data.result;
+                .then(response => {
+                    if (!response.body) {
+                        throw Error("ReadableStream not available!");
+                    }
+        
+                    var reader = response.body.getReader();
+                    var decoder = new TextDecoder();
+        
+                    reader.read().then(function processText({ done, value }) {
+                        if (done) {
+                            console.log('Stream finished');
+                            return;
+                        }
+        
+                        resultBox.textContent += decoder.decode(value);
+        
+                        return reader.read().then(processText);
+                    });
                 })
                 .catch(error => {
                     resultBox.textContent = "An error occurred: " + error.message;
                 });
             });
         </script>
+        
     </body>
     

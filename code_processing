@@ -1,0 +1,15 @@
+The `comment_files` function in your code analyzes Python files one by one. Here's how it works:
+
+1. It iterates over all the files in the provided `directory` and its subdirectories using `os.walk(directory)`. This returns a generator that produces tuples, each containing the path to a directory, a list of the subdirectories in that directory, and a list of the files in that directory.
+
+2. For each file in each directory, it checks if the file ends with `.py` to determine if it's a Python file.
+
+3. If the file is a Python file, it opens the file, reads its content, and sends that content to the OpenAI API for analysis.
+
+4. It then takes the API's response and writes it to a new markdown file.
+
+5. The function then moves on to the next file and repeats the process.
+
+So, the function processes Python files one at a time, but it will eventually process all Python files in the directory and its subdirectories.
+
+The `create_readme` function, on the other hand, creates a single README file for the entire directory. It first generates an overview of the Python files in the directory, and then sends that overview to the OpenAI API to generate the content of the README file. The resulting README file is written to the root of the provided `directory`.

@@ -5,6 +5,10 @@ import textwrap
 import libcst as cst
 from tqdm import tqdm
 import time
+from bs4 import BeautifulSoup
+from slimit.parser import Parser
+from slimit.visitors import nodevisitor
+from slimit import ast
 
 
 load_dotenv()  # take environment variables from .env.
@@ -27,27 +31,45 @@ class FunctionAndClassVisitor(cst.CSTVisitor):
     def __init__(self):
         self.offsets = []
 
-    def visit_FunctionDef(self, node):
-        self.offsets.append(node.start.line)
+def visit_FunctionDef(self, node: cst.FunctionDef) -> None:
+    self.offsets.append(node.whitespace_before_colon.start.line)
 
-    def visit_ClassDef(self, node):
-        self.offsets.append(node.start.line)
+def visit_ClassDef(self, node: cst.ClassDef) -> None:
+    self.offsets.append(node.whitespace_before_colon.start.line)
 
 
-def split_code_into_chunks(code):
-    module = cst.parse_module(code)
-    visitor = FunctionAndClassVisitor()
-    module.visit(visitor)
-
+def split_code_into_chunks(code, file_extension):
     lines = code.split("\n")
+    offsets = []
+
+    if file_extension == ".py":
+        module = cst.parse_module(code)
+        visitor = FunctionAndClassVisitor()
+        module.visit(visitor)
+        offsets = visitor.offsets
+    elif file_extension in [".js", ".ts", ".tsx"]:
+        parser = Parser()
+        tree = parser.parse(code)
+        for node in nodevisitor.visit(tree):
+            if isinstance(node, (ast.FunctionDeclaration, ast.FunctionExpression, ast.ClassDeclaration)):
+                offsets.append(node.location.line)
+    elif file_extension == ".html":
+        # BeautifulSoup HTML parsing here
+        soup = BeautifulSoup(code, 'html.parser')
+        offsets = [tag.line for tag in soup]
+    else:
+        # Add more parsers as needed
+        return []
+
     chunks = []
     start = 0
-    for end in visitor.offsets:
+    for end in offsets:
         chunks.append("\n".join(lines[start:end]))
         start = end
     chunks.append("\n".join(lines[start:]))
-    return chunks
 
+    return chunks
+ 
 
 # Retry configuration
 max_retries = 3
@@ -87,7 +109,7 @@ def comment_files(directory, gpt_version, open_api_key=None):
                     content = f.read()
                     
                 try:
-                    chunks = split_code_into_chunks(content)  # Add this line
+                    chunks = split_code_into_chunks(content, file_extension)  # Pass in the file extension
                 except Exception as e:
                    print(f"Error processing file: {file_path}")
                    print(e)
